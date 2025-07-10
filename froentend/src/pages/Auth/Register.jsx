@@ -35,6 +35,7 @@ const Register = () => {
         </select>
         <button type="submit" className="bg-blue-500 text-white py-2 rounded">Register</button>
       </form>
+      
     </div>
   );
 };

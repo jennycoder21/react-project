@@ -17,7 +17,7 @@ router.post('/create', protect, restrictTo('teacher'), async (req, res) => {
       title,
       description,
       category,
-      teacher: req.user._id
+      teacher: req.user._id,
     });
 
     res.status(201).json({ message: '✅ Course created successfully', course });
@@ -26,11 +26,12 @@ router.post('/create', protect, restrictTo('teacher'), async (req, res) => {
   }
 });
 
-// ✅ 2. All users can view courses
+// ✅ 2. All users can view courses (updated with enrolledStudents population)
 router.get('/', protect, async (req, res) => {
   try {
     const courses = await Course.find()
       .populate('teacher', 'name email')
+      .populate('enrolledStudents', '_id name email') // ✅ key line added here
       .sort({ createdAt: -1 });
 
     res.status(200).json(courses);
@@ -49,6 +50,7 @@ router.post('/:id/enroll', protect, restrictTo('student'), async (req, res) => {
       return res.status(404).json({ message: 'Course not found' });
     }
 
+    // Prevent duplicate enrollment
     if (course.enrolledStudents.includes(req.user._id)) {
       return res.status(400).json({ message: 'Already enrolled' });
     }

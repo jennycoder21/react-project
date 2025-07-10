@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
@@ -15,7 +15,7 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e) => {
@@ -38,7 +38,10 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded shadow-md w-full max-w-sm">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded shadow-md w-full max-w-sm"
+      >
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
 
         {error && <p className="text-red-500 mb-4">{error}</p>}
@@ -67,10 +70,16 @@ const Login = () => {
         >
           Login
         </button>
+
+        <p className="mt-4 text-sm text-center text-gray-600">
+          Don't have an account?{" "}
+          <Link to="/register" className="text-blue-600 hover:underline">
+            Register here
+          </Link>
+        </p>
       </form>
     </div>
   );
 };
 
 export default Login;
-
