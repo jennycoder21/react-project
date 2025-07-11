@@ -31,26 +31,36 @@ const MyEnrolledCourses = () => {
   }, [token, user.id]);
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">My Enrolled Courses</h2>
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
+      <h2 className="text-3xl font-bold text-gray-800 mb-6">
+        📘 My Enrolled Courses
+      </h2>
 
       {loading ? (
-        <p>Loading...</p>
+        <p className="text-gray-600">Loading...</p>
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : enrolledCourses.length === 0 ? (
-        <p>You have not enrolled in any courses.</p>
+        <p className="text-gray-600 italic">
+          You have not enrolled in any courses.
+        </p>
       ) : (
-        <div className="space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {enrolledCourses.map((course) => (
             <div
               key={course._id}
-              className="border p-4 rounded shadow bg-white"
+              className="bg-white border border-gray-200 p-5 rounded-lg shadow hover:shadow-lg transition"
             >
-              <h3 className="text-lg font-semibold">{course.title}</h3>
-              <p>{course.description}</p>
-              <p className="text-sm text-blue-600">Category: {course.category}</p>
-              <p className="text-sm mt-1">Teacher: {course.teacher.name}</p>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                {course.title}
+              </h3>
+              <p className="text-gray-700 mb-2">{course.description}</p>
+              <p className="text-sm text-blue-600">
+                📁 Category: {course.category}
+              </p>
+              <p className="text-sm text-gray-600 mt-1">
+                👨‍🏫 Teacher: <strong>{course.teacher.name}</strong>
+              </p>
             </div>
           ))}
         </div>
