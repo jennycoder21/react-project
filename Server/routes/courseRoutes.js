@@ -64,4 +64,27 @@ router.post('/:id/enroll', protect, restrictTo('student'), async (req, res) => {
   }
 });
 
+// ✅ 4. Teacher deletes their own course
+router.delete('/:id', protect, restrictTo('teacher'), async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.id);
+
+    if (!course) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
+
+    // Ensure the logged-in teacher owns the course
+    if (course.teacher.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'You can only delete your own courses' });
+    }
+
+    await course.deleteOne();
+
+    res.status(200).json({ message: '🗑️ Course deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+
 export default router;

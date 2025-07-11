@@ -31,6 +31,21 @@ const TeacherCourses = () => {
     fetchCourses();
   }, [token, user.id]);
 
+  const handleDelete = async (courseId) => {
+    const confirm = window.confirm("Are you sure you want to delete this course?");
+    if (!confirm) return;
+
+    try {
+      await axios.delete(`http://localhost:5000/api/courses/${courseId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setCourses((prev) => prev.filter((c) => c._id !== courseId));
+    } catch (err) {
+      alert("Failed to delete course");
+    }
+  };
+
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
@@ -64,6 +79,13 @@ const TeacherCourses = () => {
               <p className="text-sm text-green-600 mt-2">
                 Enrolled Students: {course.enrolledStudents.length}
               </p>
+
+              <button
+                onClick={() => handleDelete(course._id)}
+                className="mt-3 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+              >
+                Delete
+              </button>
             </div>
           ))}
         </div>
