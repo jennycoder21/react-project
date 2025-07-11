@@ -26,12 +26,7 @@ const TeacherDashboard = () => {
             ➕ Create New Course
           </Link>
 
-          <Link
-            to="#"
-            className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-xl shadow transition col-span-1 sm:col-span-2"
-          >
-            👥 View Enrolled Students
-          </Link>
+          
         </div>
       </div>
     </div>
